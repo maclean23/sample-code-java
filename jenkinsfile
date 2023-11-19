@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Compile') {
+            steps {
+                echo "compiling stage"
+                sh 'mvn compile'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "testing stage"
+                sh 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                echo "Packing application"
+                sh 'mvn package'
+            }
+
+            post {
+                success {
+                    echo 'Package successful!'
+                }
+            }
+        }
+        stage('Docker build') {
+            steps {
+                echo "building image"
+                sh 'docker build -t javapp:${BUILD_NUMBER}'
+            }
+        }   
+        stage('Docker log in') {
+            steps {
+                echo "Logging into docker"
+                sh 'docker login -u maclean23'
+                sh 'dckr_pat_xiWXRPMsc9Xfye1df9n_37Y5RQs'
+            }
+        }   
+        stage(' Docker Push ') {
+            steps {
+                echo " Pushing image to Docker"
+                sh 'docker push javapp:${BUILD_NUMBER}'
+            post {
+                success {
+                    echo 'PUSH SUCCESSFUL'
+            }
+            }
+        }         
+    }
+    }  
+}
