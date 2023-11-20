@@ -5,6 +5,7 @@ pipeline {
         stage('Compile') {
             steps {
                 echo "compiling stage"
+                git 'git@github.com:maclean23/sample-code-java.git'
                 sh 'mvn compile'
             }
         }
