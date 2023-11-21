@@ -32,7 +32,7 @@ pipeline {
         stage('Docker build') {
             steps {
                 echo "building image"
-                sh 'docker build -t javapp:${BUILD_NUMBER}'
+                sh 'docker build -t javapp:${BUILD_NUMBER} .'
             }
         }   
         stage('Docker log in') {
