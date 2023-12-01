@@ -51,6 +51,12 @@ pipeline {
                     echo 'PUSH SUCCESSFUL'
             }
             }
+        }   
+        stage('Docker run') {
+            steps {
+                echo "run image"
+                sh 'docker run -itd -p 2020:80 sampleapp:${BUILD_NUMBER} '
+            }
         }         
     }
     }  
